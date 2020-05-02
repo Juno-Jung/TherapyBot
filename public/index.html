@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+  <html><head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Chat App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+
+    <!-- Messages from other users will be a certain distance from the left
+    Messages from you will be a certain distance from the right.
+    Messages come sequentially  -->
+
+    <!-- Messages come from an input. Make a form of type input. Add event listener ON input to create a message, which then outputs to body on button click. For your messages -->
+    <div id="head-image">
+      <img class="resize-fit-head-image" src="TBot.png" alt="TherapyBot">
+    </div>
+
+    <div id="chat-area">
+      <div class="col-user">
+        <div class="header"><h2>Your messages</h2></div>
+      </div>
+      <div class="col-others">
+        <div class="header"><h2>Other messages</h2></div>
+      </div>
+    </div>
+
+    <div id="container-input">
+      <div id="message-box">
+        <!-- html input field with a btn -->
+        <form name="input" id="input-form">
+          <input type="text" name="message" id="message" placeholder="Type your message here..">
+          <input type="submit" value="Submit Message">
+        </form>	
+      </div>
+    </div>	
+
+
+  </body>
+  <script src="script.js"></script>
+  <script type="text/javascript" src="http://quotes.stormconsultancy.co.uk/quotes/1.json?callback=jsonpCallback"></script>
+</html>
+
