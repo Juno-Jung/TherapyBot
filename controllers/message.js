@@ -1,20 +1,30 @@
 
-const { getMessage, postMessage } = require('./../models/message');
+const messageModel = require('./../models/message');
 
-const messageController = (req, res) => {
-  // Gets messages from chat and sends them back
-  if (req.method === 'GET') {
-    let message = getMessage;
+
+const getMessages = (req, res) => {
+  try {
+    let message = messageModel.getMessages();
     res.status(200);
     res.send(message);
+  } catch (e) {
+    // res.status(500); // These are the same things
+    // res.end();
+    res.sendStatus(500);
   }
+}
 
-  // Posts a new message into the chat.
-  if (req.method === 'POST') {
-    postMessage(req.body);
-    res.status(200);
-    res.send('Data received and stored!');
+const postMessage = (req, res) => {
+  try {
+    messageModel.postMessage(req.body);
+    res.status(201);
+    res.send(req.body);
+  } catch (e) {
+    res.sendStatus(500);
   }
-};
+}
 
-module.exports = messageController;
+module.exports = { 
+  getMessages,
+  postMessage
+}

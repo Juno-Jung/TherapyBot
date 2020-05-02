@@ -12,65 +12,78 @@ class Message {
     const hours = this.timeStamp.getHours();
     const time = `[${('0' + hours).slice(-2)}:${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}] `;
 
-    return time + this.content;
+    this.content = time + this.content;
   }
 }
 
-// function jsonpCallback (data) {
-//   addMessageToChatArea(data.quote, false);
-// }
+function addMessageToChatArea (message) {// Parameters: message, userType (boolean: true=me false=other),
+  const userTypeClass = (message.authorId) ? 'col-user user' : 'col-others other-users';
+  const $messageDiv = $('<div>')
+    .addClass(userTypeClass)
+    .html(message.content);
+
+  $('#chat-area').append($messageDiv);
+
+  $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
+}
+  
+
+function getMessages () {
+  $.get('/message', (data) => {
+    data.forEach(message => addMessageToChatArea(message));
+  });
+}
+
+
+function postMessage (message) {
+  $.ajax({
+    url: '/message',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(message),
+  });
+}
+
+
+// Creates new Message object, adds to DOM. (Supports either user type).  
+
+function fetchRandomUserMessage () {
+  // Generate random time interval here ... between 0 and N milliseconds/seconds.localStorage
+  const maxInterval = 10000; // millis
+  let interval = getRandomInterval();
+  setTimeout( () => { 
+    // console.log('INFO: TEMP: Will get random (quote) message after =' + (interval/1000) + ' seconds');
+    getUserMessage();
+    fetchRandomUserMessage();
+  }, interval);
+
+  function getRandomInterval () {
+    return Math.random() * maxInterval;
+  }
+}
+
+
+
+function getUserMessage () {
+  // Ajax Method
+
+  $.ajax({ 
+    url: 'http://quotes.stormconsultancy.co.uk/random.json',
+    success: function (data) {
+      // console.log(data);
+      const message = new Message(false, data.quote, Date.now());
+      message.format();
+      postMessage(message);
+
+      addMessageToChatArea(message);
+    }
+  });  
+}
 
 $(() => {
+  getMessages();
+  $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
 
-  // Creates new Message object, adds to DOM. (Supports either user type).  
-
-  function fetchRandomUserMessage () {
-    // Generate random time interval here ... between 0 and N milliseconds/seconds.localStorage
-    const maxInterval = 10000; // millis
-    let interval = getRandomInterval();
-    setTimeout( () => { 
-      // console.log('INFO: TEMP: Will get random (quote) message after =' + (interval/1000) + ' seconds');
-      getUserMessage();
-      fetchRandomUserMessage();
-    }, interval);
-
-    function getRandomInterval () {
-      return Math.random() * maxInterval;
-    }
-  }
-
-  function addMessageToChatArea (messageText, userType) {// Parameters: message, userType (boolean: true=me false=other),
-    const userTypeClass = (userType) ? 'col-user user' : 'col-others other-users';
-    const messageObj = new Message(userType, messageText, Date.now());
-    const $messageDiv = $('<div>')
-      .addClass(userTypeClass)
-      .html(messageObj.format()); // Change to messageObj.format() when format is finish.
-  
-    $('#chat-area').append($messageDiv);
-  
-    $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
-  }
-    
-
-  function getUserMessage () {
-    // Ajax Method
-
-    $.ajax({ 
-      url: 'http://quotes.stormconsultancy.co.uk/random.json',
-      success: function (data) {
-        // console.log(data);
-        addMessageToChatArea(data.quote, false);
-      }
-    });  
-    
-
-    // JSONP Method
-    // const script = document.createElement('script');
-    // script.type = 'text/javascript';
-    // script.src = 'http://quotes.stormconsultancy.co.uk/quotes/' + Math.ceil(Math.random() * 40) + '.json?callback=jsonpCallback';
-
-    // $('html').append(script);
-  }
 
   $('#input-form').on('submit', function (event) {  
     event.preventDefault();
@@ -79,7 +92,11 @@ $(() => {
     const input = $input.val();
     document.getElementById('input-form').reset(); 
     if (input) {
-      addMessageToChatArea(input, true);
+      const message = new Message(true, input, Date.now());
+      message.format();
+      postMessage(message);
+
+      addMessageToChatArea(message);
     }
   });
 
