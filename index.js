@@ -15,7 +15,7 @@ const app = express();
 const port = 3000;
 
 app.use(morgan('tiny'));
-
+app.use(express.static('public'))
 
 app.use(router);
 router.get('/', indexController);
