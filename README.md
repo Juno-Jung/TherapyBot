@@ -1,0 +1,1 @@
+Salutations! This is a working chat application where you can communicate with a bot that will respond to any of your concerns with bright, cheery messages in hopes that you have a better day.
