@@ -12,7 +12,7 @@ const getMessages = (req, res) => {
     // res.end();
     res.sendStatus(500);
   }
-}
+};
 
 const postMessage = (req, res) => {
   try {
@@ -22,9 +22,9 @@ const postMessage = (req, res) => {
   } catch (e) {
     res.sendStatus(500);
   }
-}
+};
 
 module.exports = { 
   getMessages,
   postMessage
-}
+};

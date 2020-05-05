@@ -16,7 +16,7 @@ fs.readFile(dbPath, 'utf-8', function (err, data) {
 setInterval(() => {
   fs.writeFile(dbPath, JSON.stringify(db), function (err) {
     if (err) throw err;
-  })
+  });
 }, 5000);
 
 module.exports = db;
