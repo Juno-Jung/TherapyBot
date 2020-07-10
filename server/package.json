@@ -1,5 +1,5 @@
 {
-  "name": "TherapyBot",
+  "name": "therapybot",
   "version": "1.0.0",
   "description": "Salutations! This is a working chat application where you can communicate with a bot that will respond to any of your concerns with bright, cheery messages in hopes that you have a better day.",
   "main": "index.js",
