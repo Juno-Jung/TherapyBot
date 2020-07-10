@@ -6,7 +6,7 @@ Created by: Juno Jung
 
 ## Screenshots
 
-![SteamWreck Home Page](/assets/SteamWreck-Front.png?raw=true "SteamWreck Home Page")
+![TherapyBot Home Page](/assets/TherapyBot.png?raw=true "TherapyBot Home Page")
 
 ## Tech Stack
 
